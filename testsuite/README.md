@@ -9,9 +9,10 @@ single test:
     build/bin/exbtest testsuite/tests/<name>.chk
 
 `make eostest` runs the programs in `eos/` on a real DOS instead: EOS, the
-SpartaDOS X compatible DOS of the ExtendedOS project, from its cartridge
-image `EOS.car` (by default in the folder above the exBASIC tree, or set
-`EOS_CAR`), in the Altirra emulator under wine and Xvfb.  They test file
+SpartaDOS X compatible DOS vendored in `third_party/exoperatingsystem/`.
+The target builds its `EOS.car` with MADS and runs it in the Altirra emulator
+under wine and Xvfb.  When running `testsuite/eos/run.py` directly, `EOS_CAR`
+can select another cartridge image.  The tests cover file
 I/O, `NOTE`/`POINT`, `XIO`, directories, `RUN`/`COMMON`, the load-time
 memory check and graphics; the expected output (in `eos/run.py`) is the
 output of the same programs on SpartaDOS X 4.50.  `testsuite/eos/run.py

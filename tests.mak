@@ -94,11 +94,16 @@ test: $(TESTS_STAMP) $(RUNTEST)
 peephole-coverage: $(EXBASIC_HOST)
 	$(Q)$(SHELL) testsuite/peephole-coverage.sh
 
-# exBASIC programs on EOS, from its cartridge image EOS.car (testsuite/eos,
-# needs wine, xvfb-run, Altirra and EOS.car, see testsuite/eos/run.py)
+# Build the vendored EOS cartridge with the same atr tool as exBASIC.
+.PHONY: eos
+eos: $(ATR_HOST)
+	$(Q)$(MAKE) -C $(EOS_DIR) eos ATR=$(abspath $(ATR_HOST))
+
+# exBASIC programs on vendored EOS (testsuite/eos; needs wine, xvfb-run,
+# Altirra and MADS, see testsuite/eos/run.py).
 .PHONY: eostest
-eostest: $(COMPILER_TARGET) $(COMPILER_COMMON) $(ATR_HOST)
-	$(Q)python3 testsuite/eos/run.py -j 3
+eostest: $(COMPILER_TARGET) $(COMPILER_COMMON) eos
+	$(Q)EOS_CAR=$(abspath $(EOS_CAR)) python3 testsuite/eos/run.py -j 3
 
 # Benchmarks against Atari BASIC, Altirra BASIC and FastBasic in Altirra
 # (bench/bench.py: needs wine, xvfb-run, Altirra and the ROMs, see there)

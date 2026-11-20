@@ -12,8 +12,8 @@ expected lines (EXPECTED below, the output of the same programs on SDX
 4.50).
 
 usage: run.py [-j N] [test ...]      (all the tests by default)
-needs: wine, xvfb-run, Altirra (ALTIRRA_EXE), EOS.car (EOS_CAR, default the
-folder above the exBASIC tree)
+needs: wine, xvfb-run, Altirra (ALTIRRA_EXE), and EOS.car (EOS_CAR, default
+the cartridge built from third_party/exoperatingsystem)
 """
 import concurrent.futures
 import os
@@ -30,7 +30,8 @@ ROOT = HERE.parents[1]
 OUT = ROOT / 'build' / 'eostest'
 ALTIRRA = Path(os.environ.get('ALTIRRA_EXE', Path.home() /
                               'AtariMutineer/Privateer/tools/altirra/4.40/Altirra64.exe'))
-EOS_CAR = Path(os.environ.get('EOS_CAR', ROOT.parent / 'EOS.car'))
+EOS_CAR = Path(os.environ.get(
+    'EOS_CAR', ROOT / 'third_party/exoperatingsystem/build/EOS.car'))
 EXBASIC = Path(os.environ.get('EXBASIC', ROOT / 'build/compiler/exbasic'))
 ATR = ROOT / 'build/bin/atr'
 OPTS = {'XLOW': ['-S:0x1000']}        # starts below MEMLO: the load check

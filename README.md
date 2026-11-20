@@ -59,6 +59,9 @@ the compiled sample programs.
 Other targets:
 
 - `make test` runs the test suite.
+- `make eos` builds the vendored EOS cartridge (requires MADS).
+- `make eostest` runs the EOS integration tests (also requires Altirra,
+  Wine and Xvfb).
 - `make profile` profiles the sample programs, see the
   [test suite documentation](testsuite/README.md).
 - `make dist` builds the `build/exbasic.zip` archive of the compiler.
@@ -87,6 +90,7 @@ Source layout
 - `testsuite/` - test suite, simulator and profiler.
 - `cc65/` - the CA65 assembler and LD65 linker from the CC65 project.
 - `third_party/mkatrgo/` - the Go `atr` tool used to build and inspect ATR disk images.
+- `third_party/exoperatingsystem/` - the vendored EOS source used by the EOS tests.
 - `disk/` - DOS files for the disk image.
 
 

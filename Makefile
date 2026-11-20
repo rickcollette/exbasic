@@ -93,6 +93,8 @@ include version.mk
 
 ATR=build/exbasic.atr
 ZIPFILE=build/exbasic.zip
+EOS_DIR=third_party/exoperatingsystem
+EOS_CAR=$(EOS_DIR)/build/EOS.car
 
 # Host tools (build machine), and target tools (the distributed compiler)
 EXBASIC_HOST=build/bin/exbasic$(HOST_EXT)
@@ -323,6 +325,7 @@ COMPILER_COMMON=\
 	 build/compiler/licenses/CC65.txt\
 	 build/compiler/licenses/MKATRGO-GPL-2.0.txt\
 	 build/compiler/licenses/MKATRGO-NOTICE.md\
+	 build/compiler/licenses/EOS-MIT.txt\
 	 build/compiler/licenses/MINI65-GPL-2.0.txt\
 	 build/compiler/licenses/CCAN-CC0-1.0.txt\
 	 $(MANUAL_PAGES:doc/manual/%=build/compiler/manual/%)\

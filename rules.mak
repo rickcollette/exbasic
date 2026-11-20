@@ -41,6 +41,7 @@ clean:
 	$(Q)rm -rf build/tests
 	$(Q)rm -f $(RUNTEST_OBJS) $(RUNTEST) $(RUNTEST_OBJS:.o=.d)
 	$(Q)rm -f $(EXBPROF_OBJS) $(EXBPROF) $(EXBPROF_OBJS:.o=.d)
+	$(Q)$(MAKE) -C $(EOS_DIR) clean
 
 .PHONY: distclean
 distclean: clean
@@ -195,6 +196,7 @@ build/compiler/THIRD_PARTY_LICENSES.md: THIRD_PARTY_LICENSES.md | build/compiler
 	    -e 's|(cc65/LICENSE)|(licenses/CC65.txt)|g' \
 	    -e 's|(third_party/mkatrgo/LICENSE)|(licenses/MKATRGO-GPL-2.0.txt)|g' \
 	    -e 's|(third_party/mkatrgo/NOTICE.md)|(licenses/MKATRGO-NOTICE.md)|g' \
+	    -e 's|(third_party/exoperatingsystem/LICENSE)|(licenses/EOS-MIT.txt)|g' \
 	    -e 's|(testsuite/mini65/LICENSE)|(licenses/MINI65-GPL-2.0.txt)|g' \
 	    -e 's|(testsuite/mini65/ccan/LICENSE)|(licenses/CCAN-CC0-1.0.txt)|g' \
 	    -e 's|(LICENSE)|(licenses/EXBASIC.txt)|g' $< > $@
@@ -212,6 +214,9 @@ build/compiler/licenses/MKATRGO-GPL-2.0.txt: third_party/mkatrgo/LICENSE | build
 	$(Q)cp -f $< $@
 
 build/compiler/licenses/MKATRGO-NOTICE.md: third_party/mkatrgo/NOTICE.md | build/compiler/licenses
+	$(Q)cp -f $< $@
+
+build/compiler/licenses/EOS-MIT.txt: third_party/exoperatingsystem/LICENSE | build/compiler/licenses
 	$(Q)cp -f $< $@
 
 build/compiler/licenses/MINI65-GPL-2.0.txt: testsuite/mini65/LICENSE | build/compiler/licenses

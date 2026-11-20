@@ -53,6 +53,16 @@ a Go port of Daniel Serpell's [mkatr](https://github.com/dmsc/mkatr).
 - **Local license:** [third_party/mkatrgo/LICENSE](third_party/mkatrgo/LICENSE)
 - **Local notice:** [third_party/mkatrgo/NOTICE.md](third_party/mkatrgo/NOTICE.md)
 
+### EOS
+
+The `third_party/exoperatingsystem/` directory contains the vendored source
+of [EOS](https://github.com/rickcollette/exoperatingsystem), an Atari 8-bit
+operating system used by exBASIC's EOS integration tests.
+
+- **Copyright:** Copyright (c) 2026 Rick Collette
+- **License:** MIT License
+- **Local license:** [third_party/exoperatingsystem/LICENSE](third_party/exoperatingsystem/LICENSE)
+
 ### Mini65
 
 The test suite contains Mini65, Daniel Serpell's small 6502 simulator with an
