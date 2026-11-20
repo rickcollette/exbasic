@@ -21,6 +21,9 @@ all: $(ATR) $(COMPILER_COMMON) $(COMPILER_TARGET) $(COMPILER_MANIFESTS)
 
 dist: $(ATR) $(ZIPFILE)
 
+.PHONY: compiler
+compiler: $(COMPILER_COMMON) $(COMPILER_TARGET) $(COMPILER_MANIFESTS)
+
 # Make sure that failed targets are deleted
 .DELETE_ON_ERROR:
 

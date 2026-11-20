@@ -68,7 +68,7 @@ Q=@
 ECHO=@printf "\e[0;32m%s\e[0m\n"
 
 # Detect target Windows OS and set target file extensions:
-ifeq ($(strip $(shell echo '_WIN32' | $(CROSS)$(CXX) -E - | grep  "_WIN32")),_WIN32)
+ifneq ($(findstring _WIN32,$(shell echo '_WIN32' | $(CROSS)$(CXX) -E -)),)
     # Linux / OS-X
     TGT_EXT=
 else
@@ -77,7 +77,7 @@ else
 endif
 
 # Detect host Windows OS and set host file extensions:
-ifeq ($(strip $(shell echo '_WIN32' | $(CXX) -E - | grep  "_WIN32")),_WIN32)
+ifneq ($(findstring _WIN32,$(shell echo '_WIN32' | $(CXX) -E -)),)
     # Linux / OS-X
     HOST_EXT=
 else

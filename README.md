@@ -66,6 +66,9 @@ Other targets:
   [test suite documentation](testsuite/README.md).
 - `make dist` builds the `build/exbasic.zip` archive of the compiler.
 
+Cross-platform release packages and GitHub publishing are described in
+[doc/RELEASE.md](doc/RELEASE.md).
+
 
 Usage
 -----
