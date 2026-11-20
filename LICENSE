@@ -102,7 +102,7 @@ This license applies only to original exBASIC Studio material that is not
 separately licensed. It does not relicense the third-party exBASIC handbook
 copied into internal/manual/chapters/.
 
-The separately built `mkatr-go` executable and its implementation under
+The separately built `atr` executable and its implementation under
 `third_party/mkatrgo/` are GPL-2.0-only. See that directory's LICENSE and
 NOTICE.md. The exBASIC Studio executable invokes it as an external tool and
 does not link its code.

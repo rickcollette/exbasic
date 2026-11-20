@@ -3,7 +3,7 @@
 ExtendedOS project), from its cartridge image EOS.car, in Altirra.
 
 Each test compiles its programs, puts them on a SpartaDOS disk image (made
-with mkatr) with an AUTOEXEC.BAT that clears the screen, runs them and then
+with atr) with an AUTOEXEC.BAT that clears the screen, runs them and then
 runs MARK.COM, and boots EOS with that disk in D1:.  The programs print to
 the screen (exBASIC calls the E: handler directly, so DOS redirection does
 not apply): MARK.COM is only an RTS at $3F00, where an Altirra breakpoint
@@ -32,7 +32,7 @@ ALTIRRA = Path(os.environ.get('ALTIRRA_EXE', Path.home() /
                               'AtariMutineer/Privateer/tools/altirra/4.40/Altirra64.exe'))
 EOS_CAR = Path(os.environ.get('EOS_CAR', ROOT.parent / 'EOS.car'))
 EXBASIC = Path(os.environ.get('EXBASIC', ROOT / 'build/compiler/exbasic'))
-MKATR = ROOT / 'build/bin/mkatr'
+ATR = ROOT / 'build/bin/atr'
 OPTS = {'XLOW': ['-S:0x1000']}        # starts below MEMLO: the load check
 
 # name: (programs, commands, options)
@@ -139,7 +139,7 @@ def run(test, worker):
     (work / 'disk' / 'AUTOEXEC.BAT').write_bytes(b''.join(l.encode() + b'\x9b' for l in batch))
     atr = work / 'disk.atr'
     names = sorted(f.name for f in (work / 'disk').iterdir())
-    subprocess.run([str(MKATR), '-s', '184320', str(atr)] + names, cwd=work / 'disk',
+    subprocess.run([str(ATR), 'create', '--size', '184320', str(atr)] + names, cwd=work / 'disk',
                    check=True, capture_output=True)
     ini = work / 'altirra.ini'
     root = 'User\\Software\\virtualdub.org\\Altirra'
@@ -186,7 +186,7 @@ def main():
         jobs, argv = int(argv[1]), argv[2:]
     tests = argv or list(TESTS)
     for what, path in (('EOS cartridge', EOS_CAR), ('Altirra', ALTIRRA), ('exBASIC', EXBASIC),
-                       ('mkatr', MKATR)):
+                       ('atr', ATR)):
         if not path.exists():
             sys.exit('%s not found: %s' % (what, path))
     OUT.mkdir(parents=True, exist_ok=True)

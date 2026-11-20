@@ -40,18 +40,18 @@ CC65 contributors where applicable.
 - **License:** zlib-style CC65 license
 - **Local license:** [cc65/LICENSE](cc65/LICENSE)
 
-### mkatr and lsatr
+### mkatrgo / atr
 
-The `mkatr/` directory contains Daniel Serpell's
-[mkatr](https://github.com/dmsc/mkatr) ATR image tools.  exBASIC uses them to
-build and inspect Atari disk images.
+The `third_party/mkatrgo/` directory contains
+[mkatrgo](https://github.com/rickcollette/mkatrgo), the Go `atr` tool used by
+exBASIC to build and inspect Atari disk images.  Its SpartaDOS/BW-DOS code is
+a Go port of Daniel Serpell's [mkatr](https://github.com/dmsc/mkatr).
 
-- **Copyright:** Copyright (C) Daniel Serpell, with the applicable year
-  ranges retained in individual source files (the current program banner is
-  2016-2026)
-- **License:** GNU General Public License, version 2 or later, as stated in
-  the source headers
-- **Local license:** [mkatr/LICENSE](mkatr/LICENSE)
+- **Copyright:** Copyright (C) 2016-2026 Daniel Serpell and the mkatrgo
+  contributors, with the applicable notices retained in the source files
+- **License:** GNU General Public License, version 2 only
+- **Local license:** [third_party/mkatrgo/LICENSE](third_party/mkatrgo/LICENSE)
+- **Local notice:** [third_party/mkatrgo/NOTICE.md](third_party/mkatrgo/NOTICE.md)
 
 ### Mini65
 

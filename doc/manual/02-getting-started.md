@@ -10,14 +10,15 @@ image with sample programs.
 
 - A C compiler and a C++ compiler.  The Makefile uses `gcc` and `g++` by
   default; you can choose others with `make CC=clang CXX=clang++`.
+- Go 1.24 or newer, used to build the `atr` disk-image tool.
 - GNU make.
 - The standard Unix text tools `sed`, `tr` and `awk` (used to prepare the
   text files of the disk image).
 - For `make dist` only: `zip` and `strip`.
 
 Everything else is included in the source tree: the CA65 assembler and LD65
-linker from the CC65 project (folder `cc65/`), the `mkatr` and `lsatr` disk
-image tools (folder `mkatr/`), and the DOS files of the disk image (folder
+linker from the CC65 project (folder `cc65/`), the `atr` disk-image tool
+(folder `third_party/mkatrgo/`), and the DOS files of the disk image (folder
 `disk/`).
 
 ### Building
@@ -76,7 +77,7 @@ folder contents together.
 | --- | --- |
 | `exbasic` | The compiler. This is the only program you run directly. |
 | `ca65`, `ld65`, `ar65` | The CC65 assembler, linker and librarian, called by `exbasic`. |
-| `mkatr`, `lsatr` | Tools to create Atari disk images (`.ATR`) and to list or extract their contents. |
+| `atr` | Tool to create, inspect, modify, and extract Atari disk images (`.ATR`). |
 | `exbasic.lib` | The runtime library for executables (`.XEX`). |
 | `exbasic-cart.lib` | The runtime library for cartridge images (`.ROM`). |
 | `exbasic.cfg`, `exbasic-cart.cfg` | Linker configurations (memory layout) for executables and cartridges. |
@@ -217,14 +218,14 @@ ways to run it on a real computer:
   binary load command (`L` in the DOS 2.5 menu) or, in command line DOS
   versions, by typing its name.  Many users rename it to `.COM`, the usual
   extension for programs in command line DOS versions.
-- **From a bootable disk image.** The `mkatr` tool from the compiler folder
+- **From a bootable disk image.** The `atr` tool from the compiler folder
   creates a disk image that boots straight into the program, with no DOS:
 
   ```sh
-  mkatr hello.atr -b hello.xex
+  atr create --boot hello.xex hello.atr hello.xex
   ```
 
-  The `-b` option marks the next file as the one loaded at boot.
+  The `--boot` option names the file in the image that is loaded at boot.
 - **With an SIO device.** Devices that connect a PC or an SD card to the
   Atari serial port (SIO2PC with a program such as RespeQt, SIO2SD, SDrive,
   FujiNet and others) can mount the `.atr` image as a disk drive, and most

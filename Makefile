@@ -24,6 +24,7 @@ target: all
 CROSS=
 CXX=g++
 CC=gcc
+GO=go
 
 # Runs SED without locale
 SED=LC_ALL=C sed
@@ -98,15 +99,13 @@ EXBASIC_HOST=build/bin/exbasic$(HOST_EXT)
 CA65_HOST=build/bin/ca65$(HOST_EXT)
 LD65_HOST=build/bin/ld65$(HOST_EXT)
 AR65_HOST=build/bin/ar65$(HOST_EXT)
-MKATR_HOST=build/bin/mkatr$(HOST_EXT)
-LSATR_HOST=build/bin/lsatr$(HOST_EXT)
+ATR_HOST=build/bin/atr$(HOST_EXT)
 
 EXBASIC_TARGET=build/compiler/exbasic$(TGT_EXT)
 CA65_TARGET=build/compiler/ca65$(TGT_EXT)
 LD65_TARGET=build/compiler/ld65$(TGT_EXT)
 AR65_TARGET=build/compiler/ar65$(TGT_EXT)
-MKATR_TARGET=build/compiler/mkatr$(TGT_EXT)
-LSATR_TARGET=build/compiler/lsatr$(TGT_EXT)
+ATR_TARGET=build/compiler/atr$(TGT_EXT)
 
 # Runtime libraries, for executables and for cartridges
 LIB=build/compiler/exbasic.lib
@@ -322,7 +321,8 @@ COMPILER_COMMON=\
 	 build/compiler/licenses/EXBASIC.txt\
 	 build/compiler/licenses/FASTBASIC.txt\
 	 build/compiler/licenses/CC65.txt\
-	 build/compiler/licenses/MKATR-GPL-2.0.txt\
+	 build/compiler/licenses/MKATRGO-GPL-2.0.txt\
+	 build/compiler/licenses/MKATRGO-NOTICE.md\
 	 build/compiler/licenses/MINI65-GPL-2.0.txt\
 	 build/compiler/licenses/CCAN-CC0-1.0.txt\
 	 $(MANUAL_PAGES:doc/manual/%=build/compiler/manual/%)\
@@ -531,34 +531,30 @@ AR65_SRC=\
 	cc65/ar65/objdata.c\
 	cc65/ar65/objfile.c\
 
-MKATR_SRC=\
-	mkatr/src/atr.c\
-	mkatr/src/compat.c\
-	mkatr/src/crc32.c\
-	mkatr/src/darray.c\
-	mkatr/src/flist.c\
-	mkatr/src/mkatr.c\
-	mkatr/src/msg.c\
-	mkatr/src/spartafs.c\
+MKATRGO_DIR=third_party/mkatrgo
+MKATRGO_MODULE=github.com/megalith/mkatrgo
+MKATRGO_SRC=\
+	$(wildcard $(MKATRGO_DIR)/*.go)\
+	$(wildcard $(MKATRGO_DIR)/cmd/atr/*.go)\
+	$(wildcard $(MKATRGO_DIR)/internal/cli/*.go)\
+	$(MKATRGO_DIR)/go.mod\
+	$(MKATRGO_DIR)/go.sum
 
-LSATR_SRC=\
-	mkatr/src/atr.c\
-	mkatr/src/compat.c\
-	mkatr/src/crc32.c\
-	mkatr/src/lsatr.c\
-	mkatr/src/lsdos.c\
-	mkatr/src/lsextra.c\
-	mkatr/src/lshowfen.c\
-	mkatr/src/lssfs.c\
-	mkatr/src/msg.c\
+GO_BUILD_FLAGS=-trimpath
+GO_LD_FLAGS=-s -w -X $(MKATRGO_MODULE)/internal/cli.Version=$(VERSION)
+TARGET_GOARCH?=amd64
+ifeq ($(TGT_EXT),.exe)
+TARGET_GOOS?=windows
+else
+TARGET_GOOS?=$(shell $(GO) env GOOS)
+endif
 
 # Host tools
 COMPILER_HOST=\
 	 $(CA65_HOST)\
 	 $(LD65_HOST)\
 	 $(AR65_HOST)\
-	 $(MKATR_HOST)\
-	 $(LSATR_HOST)\
+	 $(ATR_HOST)\
 	 $(EXBASIC_HOST)\
 
 # Target tools
@@ -566,8 +562,7 @@ COMPILER_TARGET=\
 	 $(CA65_TARGET)\
 	 $(LD65_TARGET)\
 	 $(AR65_TARGET)\
-	 $(MKATR_TARGET)\
-	 $(LSATR_TARGET)\
+	 $(ATR_TARGET)\
 	 $(EXBASIC_TARGET)\
 
 # On Windows, add manifests

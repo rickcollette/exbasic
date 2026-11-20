@@ -163,7 +163,7 @@ To run compiled programs you need:
   BASIC (hold OPTION while the computer starts) so the program can use the
   memory from `$A000` to `$BFFF`.
 - A way to load a `.XEX` file: a DOS disk, a bootable disk image made with
-  the included `mkatr` tool, or a loader in your SIO device or emulator.
+  the included `atr` tool, or a loader in your SIO device or emulator.
   Cartridge images need a cartridge emulator, a flash cartridge or an
   EPROM.
 

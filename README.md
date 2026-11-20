@@ -47,7 +47,7 @@ See the [programmer's manual](doc/manual/README.md) for the language and
 Building
 --------
 
-You need a C and a C++ compiler and GNU make.  Type:
+You need a C and a C++ compiler, Go 1.24 or newer, and GNU make.  Type:
 
     make
 
@@ -86,7 +86,7 @@ Source layout
 - `samples/` - sample programs.
 - `testsuite/` - test suite, simulator and profiler.
 - `cc65/` - the CA65 assembler and LD65 linker from the CC65 project.
-- `mkatr/` - tools to build ATR disk images.
+- `third_party/mkatrgo/` - the Go `atr` tool used to build and inspect ATR disk images.
 - `disk/` - DOS files for the disk image.
 
 

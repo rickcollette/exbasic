@@ -97,7 +97,7 @@ peephole-coverage: $(EXBASIC_HOST)
 # exBASIC programs on EOS, from its cartridge image EOS.car (testsuite/eos,
 # needs wine, xvfb-run, Altirra and EOS.car, see testsuite/eos/run.py)
 .PHONY: eostest
-eostest: $(COMPILER_TARGET) $(COMPILER_COMMON) $(MKATR_HOST)
+eostest: $(COMPILER_TARGET) $(COMPILER_COMMON) $(ATR_HOST)
 	$(Q)python3 testsuite/eos/run.py -j 3
 
 # Benchmarks against Atari BASIC, Altirra BASIC and FastBasic in Altirra

@@ -780,7 +780,7 @@ The compiler folder contains:
 | `exbasic.lib`, `exbasic-cart.lib`   | runtime libraries                       |
 | `syntax/`                           | syntax files (the language definition)  |
 | `asminc/`                           | include files for the assembler         |
-| `mkatr`, `lsatr`                    | tools to make and list ATR disk images  |
+| `atr`                               | tool to create and inspect ATR images   |
 | `USAGE.md`, `manual/`, `LICENSE`    | documentation and license               |
 
 ## Environment variables

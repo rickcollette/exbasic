@@ -52,10 +52,10 @@ distclean: clean
 	# older versions of the sources.
 	$(Q)rm -rf build
 
-# Build an ATR disk image using "mkatr".
-$(ATR): $(DOS:%=$(DOSDIR)/%) $(FILES) | $(MKATR_HOST) build
+# Build an ATR disk image using mkatrgo's unified "atr" tool.
+$(ATR): $(DOS:%=$(DOSDIR)/%) $(FILES) | $(ATR_HOST) build
 	$(ECHO) "Creating ATR disk image"
-	$(Q)$(MKATR_HOST) $@ $(DOSDIR) -b $^
+	$(Q)$(ATR_HOST) create --profile bwdos --boot $(firstword $(DOS)) $@ $^
 
 # Build compiler ZIP file.
 $(ZIPFILE): $(COMPILER_COMMON) $(COMPILER_TARGET) $(COMPILER_MANIFESTS) | build
@@ -99,13 +99,10 @@ $(AR65_HOST): $(AR65_SRC) | build/bin
 	$(ECHO) "Compile AR65"
 	$(Q)$(CC) $(HOST_CFLAGS) $(CC65_CFLAGS) -o $@ $^
 
-$(MKATR_HOST): $(MKATR_SRC) | build/bin
-	$(ECHO) "Compile MKATR"
-	$(Q)$(CC) $(HOST_CFLAGS) -o $@ $^
-
-$(LSATR_HOST): $(LSATR_SRC) | build/bin
-	$(ECHO) "Compile LSATR"
-	$(Q)$(CC) $(HOST_CFLAGS) -o $@ $^
+$(ATR_HOST): $(MKATRGO_SRC) | build/bin
+	$(ECHO) "Compile ATR"
+	$(Q)cd $(MKATRGO_DIR) && CGO_ENABLED=0 $(GO) build $(GO_BUILD_FLAGS) \
+	    -ldflags "$(GO_LD_FLAGS)" -o ../../$@ ./cmd/atr
 
 # Target compiler build
 ifeq ($(CROSS),)
@@ -134,13 +131,11 @@ $(AR65_TARGET): $(AR65_SRC) | build/compiler
 	$(ECHO) "Compile target AR65"
 	$(Q)$(CROSS)$(CC) $(TARGET_CFLAGS) $(CC65_CFLAGS) -o $@ $^
 
-$(MKATR_TARGET): $(MKATR_SRC) | build/compiler
-	$(ECHO) "Compile target MKATR"
-	$(Q)$(CROSS)$(CC) $(TARGET_CFLAGS) -o $@ $^
-
-$(LSATR_TARGET): $(LSATR_SRC) | build/compiler
-	$(ECHO) "Compile target LSATR"
-	$(Q)$(CROSS)$(CC) $(TARGET_CFLAGS) -o $@ $^
+$(ATR_TARGET): $(MKATRGO_SRC) | build/compiler
+	$(ECHO) "Compile target ATR"
+	$(Q)cd $(MKATRGO_DIR) && CGO_ENABLED=0 GOOS=$(TARGET_GOOS) \
+	    GOARCH=$(TARGET_GOARCH) $(GO) build $(GO_BUILD_FLAGS) \
+	    -ldflags "$(GO_LD_FLAGS)" -o ../../$@ ./cmd/atr
 endif
 
 # Windows manifests
@@ -198,7 +193,8 @@ build/compiler/THIRD_PARTY_LICENSES.md: THIRD_PARTY_LICENSES.md | build/compiler
 	$(Q)$(SED) \
 	    -e 's|(compiler/LICENSE)|(licenses/FASTBASIC.txt)|g' \
 	    -e 's|(cc65/LICENSE)|(licenses/CC65.txt)|g' \
-	    -e 's|(mkatr/LICENSE)|(licenses/MKATR-GPL-2.0.txt)|g' \
+	    -e 's|(third_party/mkatrgo/LICENSE)|(licenses/MKATRGO-GPL-2.0.txt)|g' \
+	    -e 's|(third_party/mkatrgo/NOTICE.md)|(licenses/MKATRGO-NOTICE.md)|g' \
 	    -e 's|(testsuite/mini65/LICENSE)|(licenses/MINI65-GPL-2.0.txt)|g' \
 	    -e 's|(testsuite/mini65/ccan/LICENSE)|(licenses/CCAN-CC0-1.0.txt)|g' \
 	    -e 's|(LICENSE)|(licenses/EXBASIC.txt)|g' $< > $@
@@ -212,7 +208,10 @@ build/compiler/licenses/FASTBASIC.txt: compiler/LICENSE | build/compiler/license
 build/compiler/licenses/CC65.txt: cc65/LICENSE | build/compiler/licenses
 	$(Q)cp -f $< $@
 
-build/compiler/licenses/MKATR-GPL-2.0.txt: mkatr/LICENSE | build/compiler/licenses
+build/compiler/licenses/MKATRGO-GPL-2.0.txt: third_party/mkatrgo/LICENSE | build/compiler/licenses
+	$(Q)cp -f $< $@
+
+build/compiler/licenses/MKATRGO-NOTICE.md: third_party/mkatrgo/NOTICE.md | build/compiler/licenses
 	$(Q)cp -f $< $@
 
 build/compiler/licenses/MINI65-GPL-2.0.txt: testsuite/mini65/LICENSE | build/compiler/licenses
